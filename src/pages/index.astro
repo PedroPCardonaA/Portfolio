@@ -1,11 +1,108 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { site, highlights, skills, projects, experience } from "../content/sideData.ts";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featured = projects.filter((p) => p.featured ?? true).slice(0, 4);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={`${site.name} — Portfolio`} description={site.description}>
+  <Header />
+
+  <!-- Hero -->
+  <section class="card" style="padding: 22px; margin-bottom: 14px;">
+    <div class="stack-lg">
+      <div class="prose">
+        <h1>{site.tagline}</h1>
+        <p class="muted" style="margin: 10px 0 0;">
+          {site.description}
+        </p>
+      </div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn btn-primary" href={`mailto:${site.email}`}>Email</a>
+        {site.social.map((s) => (
+          <a class="btn" href={s.href} target="_blank" rel="noreferrer" style="text-decoration:none;">
+            {s.label}
+          </a>
+        ))}
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        {highlights.slice(0, 4).map((h) => <span class="pill">{h}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Skills -->
+  <section class="card" style="padding: 22px; margin-bottom: 14px;">
+    <div class="grid grid-2">
+      <div class="stack">
+        <h2>About</h2>
+        <p class="muted prose" style="margin:0;">
+          I build reliable ML systems and pragmatic data products: strong baselines, measurable iteration,
+          and clean engineering under real constraints (latency, cost, data quality).
+        </p>
+      </div>
+
+      <div class="stack">
+        <h2>Core skills</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          {skills.map((s) => <span class="pill">{s}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" style="margin-bottom: 14px;">
+    <div style="display:flex; justify-content:space-between; align-items:end; gap:12px; flex-wrap:wrap; margin: 6px 2px 10px;">
+      <h2>Selected projects</h2>
+      <a class="muted" href="/projects">View all →</a>
+    </div>
+
+    <div class="grid grid-2">
+      {featured.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="card" style="padding: 22px; margin-bottom: 14px;">
+    <h2>Experience</h2>
+    <div class="divider"></div>
+
+    <div class="grid" style="gap: 12px;">
+      {experience.map((e) => (
+        <div>
+          <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+            <div style="font-weight: 750;">{e.title}</div>
+            <div class="muted">{e.period}</div>
+          </div>
+          {e.org ? <div class="muted" style="margin-top:4px;">{e.org}</div> : null}
+          <ul class="muted" style="margin: 10px 0 0 18px;">
+            {e.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+          <div class="divider"></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="card" style="padding: 22px;">
+    <div class="stack">
+      <h2>Contact</h2>
+      <p class="muted prose" style="margin:0;">
+        Email is the fastest channel. If you prefer, reach out through the social links in the header.
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+        <a class="btn btn-primary" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="muted" style="margin-top: 18px; font-size: 0.92rem;">
+    © {new Date().getFullYear()} {site.name}. Built with Astro.
+  </footer>
+</BaseLayout>

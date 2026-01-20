@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { site, projects } from "../content/sideData.ts";
+---
+
+<BaseLayout title={`${site.name} — Projects`} description="All projects">
+  <Header />
+
+  <section class="card" style="padding: 22px; margin-bottom: 16px;">
+    <h1 style="margin:0 0 8px; font-size:20px;">Projects</h1>
+    <p class="muted" style="margin-top:0;">A longer list of things I’ve built or explored.</p>
+  </section>
+
+  <div class="grid grid-2">
+    {projects.map((p) => <ProjectCard project={p} />)}
+  </div>
+</BaseLayout>

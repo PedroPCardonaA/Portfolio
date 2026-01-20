@@ -1,0 +1,25 @@
+---
+import { site } from "../content/sideData.ts";
+---
+
+<header class="card" style="padding: 16px 18px; margin-bottom: 16px;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+    <a href="/" style="text-decoration:none;">
+      <div style="font-weight:750; letter-spacing:-0.02em;">
+        {site.name}
+      </div>
+      <div class="muted" style="font-size: 0.92rem;">
+        {site.role}{site.location ? ` · ${site.location}` : ""}
+      </div>
+    </a>
+
+    <nav style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+      <a href="/#projects">Projects</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#contact">Contact</a>
+
+      <a class="btn" href="/projects" style="text-decoration:none;">All projects</a>
+      <button class="btn" type="button" onclick="window.__toggleTheme()">Theme</button>
+    </nav>
+  </div>
+</header>

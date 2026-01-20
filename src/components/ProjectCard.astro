@@ -1,0 +1,51 @@
+---
+import type { Project } from "../content/sideData.ts";
+const { project } = Astro.props as { project: Project };
+---
+
+<article
+  class="card"
+  style="
+    padding: 16px;
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  "
+  onmouseenter="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow-hover)'; this.style.borderColor='var(--border-strong)';"
+  onmouseleave="this.style.transform='translateY(0px)'; this.style.boxShadow='var(--shadow)'; this.style.borderColor='var(--border)';"
+>
+  <div class="stack">
+    <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+      <div style="min-width: 240px;">
+        <div style="font-weight: 750; letter-spacing: -0.02em;">
+          {project.title}
+        </div>
+        <div class="muted" style="margin-top: 6px;">
+          {project.description}
+        </div>
+      </div>
+
+      {project.year ? (
+        <span class="pill">{project.year}</span>
+      ) : null}
+    </div>
+
+    {project.highlights?.length ? (
+      <ul class="muted" style="margin: 6px 0 0 18px; padding: 0;">
+        {project.highlights.slice(0, 2).map((h) => <li>{h}</li>)}
+      </ul>
+    ) : null}
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px;">
+      {project.tags.map((t) => <span class="pill">{t}</span>)}
+    </div>
+
+    {project.links?.length ? (
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;">
+        {project.links.map((l) => (
+          <a class="btn" href={l.href} target="_blank" rel="noreferrer" style="text-decoration:none;">
+            {l.label}
+          </a>
+        ))}
+      </div>
+    ) : null}
+  </div>
+</article>
